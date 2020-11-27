@@ -95,6 +95,7 @@ public class Camera2BasicFragment extends Fragment
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
+
     /**
      * Tag for the {@link Log}.
      */
@@ -603,6 +604,11 @@ public class Camera2BasicFragment extends Fragment
                 StreamConfigurationMap scmap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 Size previewSizes[] = scmap.getOutputSizes(ImageReader.class);
                 Log.d(TAG, "sizesp: " + Arrays.toString(previewSizes));
+
+                //size support for JPEG image
+                StreamConfigurationMap scmap_jpeg = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                Size previewSizes_jpeg[] = scmap.getOutputSizes(ImageFormat.JPEG);
+                Log.d(TAG, "sizesp_ipeg: " + Arrays.toString(previewSizes));
 
                 Point displaySize = new Point();
                 activity.getWindowManager().getDefaultDisplay().getSize(displaySize);

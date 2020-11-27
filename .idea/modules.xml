@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-Camera2Basic.iml" filepath="$PROJECT_DIR$/.idea/modules/android-Camera2Basic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Application/android-Camera2Basic.Application.iml" filepath="$PROJECT_DIR$/.idea/modules/Application/android-Camera2Basic.Application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/camera2API.iml" filepath="$PROJECT_DIR$/.idea/modules/camera2API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Application/camera2API.Application.iml" filepath="$PROJECT_DIR$/.idea/modules/Application/camera2API.Application.iml" />
     </modules>
   </component>
 </project>
