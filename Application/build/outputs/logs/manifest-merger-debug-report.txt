@@ -1,7 +1,7 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-40:12
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-40:12
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-42:12
+INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-42:12
 MERGED from [com.android.support:support-v13:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e5e2d6b609a7fcb5dd1b5eee907474ea/support-v13-27.0.2/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-v4:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/5a852978b651b1a0947a6a75ff381735/support-v4-27.0.2/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:cardview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/a0be3fd8604a89435186030320484674/cardview-v7-27.0.2/AndroidManifest.xml:17:1-22:12
@@ -14,7 +14,7 @@ MERGED from [com.android.support:support-core-ui:27.0.2] /home/hanhltg/.gradle/c
 MERGED from [com.android.support:support-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/26ec5c0c225bae894f40f2c0bd2802cf/support-vector-drawable-27.0.2/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/f86ec469d795472fc46c8ead4b3256a7/support-compat-27.0.2/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:runtime:1.0.3] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/4ee9deb39d4f6ae71451454076275831/runtime-1.0.3/AndroidManifest.xml:17:1-24:12
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-40:12
+INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-42:12
 	package
 		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:19:5-47
 		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
@@ -25,40 +25,48 @@ uses-permission#android.permission.CAMERA
 ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:21:5-65
 	android:name
 		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:21:22-62
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:22:5-80
+	android:name
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:22:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:23:5-81
+	android:name
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:23:22-78
 uses-feature#android.hardware.camera
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:23:5-60
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:25:5-60
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:23:19-57
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:25:19-57
 uses-feature#android.hardware.camera.autofocus
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:24:5-70
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:26:5-70
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:24:19-67
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:26:19-67
 application
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:26:5-38:19
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:28:5-40:19
 	android:label
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:27:9-41
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:29:9-41
 	android:icon
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:28:9-45
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:30:9-45
 	android:allowBackup
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:26:18-44
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:28:18-44
 	android:theme
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:29:9-45
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:31:9-45
 activity#com.example.android.camera2basic.CameraActivity
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:31:9-37:20
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:33:9-39:20
 	android:label
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:32:19-51
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:34:19-51
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:31:19-49
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:33:19-49
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:33:13-36:29
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:35:13-38:29
 action#android.intent.action.MAIN
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:34:17-69
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:36:17-69
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:34:25-66
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:36:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:35:17-77
+ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:37:17-77
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:35:27-74
+		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:37:27-74
 uses-sdk
 INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml

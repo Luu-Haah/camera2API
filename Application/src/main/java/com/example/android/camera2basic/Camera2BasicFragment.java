@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -45,6 +46,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -251,7 +253,7 @@ public class Camera2BasicFragment extends Fragment
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
+            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile, getActivity()));
         }
 
     };
@@ -457,7 +459,8 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+        //mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+       mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "pic.jpg");
     }
 
     @Override
@@ -537,8 +540,11 @@ public class Camera2BasicFragment extends Fragment
                 Size largest = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                         new CompareSizesByArea());
-                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
+                // mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
+                 //       ImageFormat.JPEG, /*maxImages*/2);
+                mImageReader = ImageReader.newInstance(4000, 2000,
                         ImageFormat.JPEG, /*maxImages*/2);
+
                 mImageReader.setOnImageAvailableListener(
                         mOnImageAvailableListener, mBackgroundHandler);
 
@@ -1003,9 +1009,19 @@ public class Camera2BasicFragment extends Fragment
          */
         private final File mFile;
 
-        ImageSaver(Image image, File file) {
+        private final Activity mActivity;
+
+        ImageSaver(Image image, File file, Activity mActivity) {
+            this.mActivity = mActivity;
             mImage = image;
             mFile = file;
+        }
+
+        private void galleryAddPic() {
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(mFile);
+            mediaScanIntent.setData(contentUri);
+            mActivity.sendBroadcast(mediaScanIntent);
         }
 
         @Override
@@ -1013,15 +1029,22 @@ public class Camera2BasicFragment extends Fragment
 
             ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
+
+
+
             buffer.get(bytes);
             FileOutputStream output = null;
             try {
                 output = new FileOutputStream(mFile);
                 output.write(bytes);
+
+
             } catch (IOException e) {
                 e.printStackTrace();
+
             } finally {
                 mImage.close();
+                galleryAddPic();
                 if (null != output) {
                     try {
                         output.close();
@@ -1034,6 +1057,8 @@ public class Camera2BasicFragment extends Fragment
         }
 
     }
+
+
 
     /**
      * Compares two {@code Size}s based on their areas.

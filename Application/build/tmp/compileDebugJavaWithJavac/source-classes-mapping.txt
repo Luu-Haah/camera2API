@@ -1,9 +1,9 @@
 com/example/android/camera2basic/BuildConfig.java
  com.example.android.camera2basic.BuildConfig
-com/example/android/camera2basic/CameraActivity.java
- com.example.android.camera2basic.CameraActivity
 com/example/android/camera2basic/AutoFitTextureView.java
  com.example.android.camera2basic.AutoFitTextureView
+com/example/android/camera2basic/CameraActivity.java
+ com.example.android.camera2basic.CameraActivity
 com/example/android/camera2basic/Camera2BasicFragment.java
  com.example.android.camera2basic.Camera2BasicFragment
  com.example.android.camera2basic.Camera2BasicFragment$1
