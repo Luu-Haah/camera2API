@@ -13,6 +13,8 @@ com/example/android/camera2basic/Camera2BasicFragment.java
  com.example.android.camera2basic.Camera2BasicFragment$5
  com.example.android.camera2basic.Camera2BasicFragment$6
  com.example.android.camera2basic.Camera2BasicFragment$7
+ com.example.android.camera2basic.Camera2BasicFragment$8
+ com.example.android.camera2basic.Camera2BasicFragment$9
  com.example.android.camera2basic.Camera2BasicFragment$CompareSizesByArea
  com.example.android.camera2basic.Camera2BasicFragment$ConfirmationDialog
  com.example.android.camera2basic.Camera2BasicFragment$ConfirmationDialog$1

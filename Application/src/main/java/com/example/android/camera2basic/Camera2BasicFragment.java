@@ -25,24 +25,29 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.graphics.YuvImage;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,13 +72,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.CookieHandler;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.nio.ReadOnlyBufferException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -138,6 +147,9 @@ public class Camera2BasicFragment extends Fragment
      */
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
+    private CaptureResult mCaptureResult;
+    private CameraCharacteristics mCharacteristics;
+
     /**
      * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
      * {@link TextureView}.
@@ -191,6 +203,7 @@ public class Camera2BasicFragment extends Fragment
      */
     private Size mPreviewSize;
 
+
     /**
      * {@link CameraDevice.StateCallback} is called when {@link CameraDevice} changes its state.
      */
@@ -238,24 +251,51 @@ public class Camera2BasicFragment extends Fragment
      * An {@link ImageReader} that handles still image capture.
      */
     private ImageReader mImageReader;
-
+    private ImageReader mJpegImageReader, mRawImageReader, mYUVImageReader;
     /**
      * This is the output file for our picture.
      */
     private File mFile;
+    private File mJpegFile, mRawFile, mYUVFile;
 
     /**
      * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * still image is ready to be saved.
      */
-    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
+    private final ImageReader.OnImageAvailableListener mOnJpegImageAvailableListener
             = new ImageReader.OnImageAvailableListener() {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile, getActivity()));
+            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mJpegFile, getActivity(),
+                    mCaptureResult, mCharacteristics));
         }
 
+    };
+
+    /** RAW ImageReader */
+    private final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener
+            = new ImageReader.OnImageAvailableListener() {
+
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mRawFile, getActivity(),
+                    mCaptureResult, mCharacteristics));
+
+        }
+
+    };
+
+    /** YUV File*/
+    private final ImageReader.OnImageAvailableListener mOnYUVImageAvailableListener
+            = new ImageReader.OnImageAvailableListener() {
+
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mYUVFile, getActivity(),
+                    mCaptureResult, mCharacteristics));
+
+        }
     };
 
     /**
@@ -297,7 +337,7 @@ public class Camera2BasicFragment extends Fragment
             = new CameraCaptureSession.CaptureCallback() {
 
         private void process(CaptureResult result) {
-            Log.d(TAG, "process: switch" +mState);
+            Log.d(TAG, "process: switch" + mState);
             switch (mState) {
                 case STATE_PREVIEW: {
                     // We have nothing to do when the camera preview is working normally.
@@ -305,8 +345,8 @@ public class Camera2BasicFragment extends Fragment
                 }
                 case STATE_WAITING_LOCK: {
                     Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
-                    Log.d(TAG, "process: if" +(afState == null));
-                    Log.d(TAG, "process:else if " +(CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
+                    Log.d(TAG, "process: if" + (afState == null));
+                    Log.d(TAG, "process:else if " + (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
                             CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState));
 
                     if (afState == null) {
@@ -323,11 +363,10 @@ public class Camera2BasicFragment extends Fragment
                             mState = STATE_PICTURE_TAKEN;
                             captureStillPicture();
                             Log.d(TAG, "process: 2");
-                        } else if (result.get(CaptureResult.CONTROL_AE_MODE )== CaptureResult.CONTROL_AE_MODE_OFF){
+                        } else if (result.get(CaptureResult.CONTROL_AE_MODE) == CaptureResult.CONTROL_AE_MODE_OFF) {
                             mState = STATE_PICTURE_TAKEN;
                             captureStillPicture();
-                        }
-                        else{
+                        } else {
                             runPrecaptureSequence();
                         }
                     }
@@ -362,11 +401,13 @@ public class Camera2BasicFragment extends Fragment
                                         @NonNull CaptureResult partialResult) {
             process(partialResult);
         }
+
         @Override
         public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                        @NonNull CaptureRequest request,
                                        @NonNull TotalCaptureResult result) {
             process(result);
+            mCaptureResult = result;
 
             Log.d(TAG, "onCaptureCompleted: " + result.get(CaptureResult.SENSOR_EXPOSURE_TIME));
         }
@@ -407,25 +448,41 @@ public class Camera2BasicFragment extends Fragment
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
     private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
-            int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
+                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
 
         // Collect the supported resolutions that are at least as big as the preview Surface
         List<Size> bigEnough = new ArrayList<>();
         // Collect the supported resolutions that are smaller than the preview Surface
         List<Size> notBigEnough = new ArrayList<>();
+        Log.d(TAG, "chooseOptimalSize: list size input: "+Arrays.toString(choices));
+        Log.d(TAG, "chooseOptimalSize: TextureView Size is : "+textureViewWidth +"x"+textureViewHeight);
+        Log.d(TAG, "chooseOptimalSize: Max Size is : "+maxWidth +"x"+maxHeight);
+        Log.d(TAG, "chooseOptimalSize: aspectRatio  "+aspectRatio.toString());
+
         int w = aspectRatio.getWidth();
         int h = aspectRatio.getHeight();
+
+
+
         for (Size option : choices) {
-            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
+
+
+
+            if (option.getWidth() <= maxWidth &&
+                    option.getHeight() <= maxHeight &&
                     option.getHeight() == option.getWidth() * h / w) {
                 if (option.getWidth() >= textureViewWidth &&
-                    option.getHeight() >= textureViewHeight) {
+                        option.getHeight() >= textureViewHeight) {
                     bigEnough.add(option);
                 } else {
                     notBigEnough.add(option);
                 }
             }
+
+
         }
+
+
 
         // Pick the smallest of those big enough. If there is no one big enough, pick the
         // largest of those not big enough.
@@ -460,7 +517,9 @@ public class Camera2BasicFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-       mFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "pic.jpg");
+        mJpegFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "pic.jpg");
+        mRawFile  =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "picc.dng");
+        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES ), "YUVpic.jpg");
     }
 
     @Override
@@ -530,6 +589,12 @@ public class Camera2BasicFragment extends Fragment
                     continue;
                 }
 
+                if (!contains(characteristics.get(
+                        CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES),
+                        CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_RAW)) {
+                    continue;
+                }
+
                 StreamConfigurationMap map = characteristics.get(
                         CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 if (map == null) {
@@ -537,16 +602,41 @@ public class Camera2BasicFragment extends Fragment
                 }
 
                 // For still image captures, we use the largest available size.
-                Size largest = Collections.max(
+                //MAX JPEG
+                Size largestJpeg = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                         new CompareSizesByArea());
-                // mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
-                 //       ImageFormat.JPEG, /*maxImages*/2);
-                mImageReader = ImageReader.newInstance(4000, 2000,
-                        ImageFormat.JPEG, /*maxImages*/2);
+                mJpegImageReader = ImageReader.newInstance(largestJpeg.getWidth(), largestJpeg.getHeight(),
+                        ImageFormat.JPEG, 2);
 
-                mImageReader.setOnImageAvailableListener(
-                        mOnImageAvailableListener, mBackgroundHandler);
+
+                //mImageReader = ImageReader.newInstance(4000, 2000, ImageFormat.JPEG, /*maxImages*/2);
+
+                //MAX RAW
+                Size largestRaw = Collections.max(
+                        Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),
+                        new CompareSizesByArea());
+                mRawImageReader =  ImageReader.newInstance(largestRaw.getWidth(), largestRaw.getHeight(),
+                        ImageFormat.RAW_SENSOR, /*maxImages*/ 2);
+
+                //MAX YUV Image
+                Size largestYUV = Collections.max(
+                        Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888)),
+                        new CompareSizesByArea());
+                mYUVImageReader =  ImageReader.newInstance(largestYUV.getWidth(), largestYUV.getHeight(),
+                        ImageFormat.YUV_420_888, /*maxImages*/ 2);
+
+                /** set Image Listener */
+
+                mJpegImageReader.setOnImageAvailableListener(
+                        mOnJpegImageAvailableListener, mBackgroundHandler);
+
+                mRawImageReader.setOnImageAvailableListener(
+                        mOnRawImageAvailableListener, mBackgroundHandler);
+
+                mYUVImageReader.setOnImageAvailableListener(
+                        mOnYUVImageAvailableListener, mBackgroundHandler);
+
 
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.
@@ -574,7 +664,7 @@ public class Camera2BasicFragment extends Fragment
 
                 //CONTROL_AE_COMPENSATION_RANGE
                 Range<Integer> range = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE);
-                Log.d(TAG, "AE RANGE:" + range.getLower() + " " +  range.getUpper());
+                Log.d(TAG, "AE RANGE:" + range.getLower() + " " + range.getUpper());
 
                 //CONTROL_AE_COMPENSATION_STEP
                 Rational step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP);
@@ -594,7 +684,7 @@ public class Camera2BasicFragment extends Fragment
 
                 //JPEG_AVAILABLE_THUMBNAIL_SIZES
                 Size[] jpegThumbnail = characteristics.get(CameraCharacteristics.JPEG_AVAILABLE_THUMBNAIL_SIZES);
-                for(int i =0; i<jpegThumbnail.length; i++){
+                for (int i = 0; i < jpegThumbnail.length; i++) {
                     Log.d(TAG, "JPEG_THUMB: " + jpegThumbnail[i]);
                 }
 
@@ -615,6 +705,7 @@ public class Camera2BasicFragment extends Fragment
                 StreamConfigurationMap scmap_jpeg = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 Size previewSizes_jpeg[] = scmap.getOutputSizes(ImageFormat.JPEG);
                 Log.d(TAG, "sizesp_ipeg: " + Arrays.toString(previewSizes));
+
 
                 Point displaySize = new Point();
                 activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
@@ -643,7 +734,7 @@ public class Camera2BasicFragment extends Fragment
                 // garbage capture data.
                 mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                         rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
-                        maxPreviewHeight, largest);
+                        maxPreviewHeight, largestJpeg);
 
                 // We fit the aspect ratio of TextureView to the size of preview we picked.
                 int orientation = getResources().getConfiguration().orientation;
@@ -658,12 +749,13 @@ public class Camera2BasicFragment extends Fragment
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
                 mFlashSupported = available == null ? false : available;
-
+                mCharacteristics = characteristics;
                 mCameraId = cameraId;
                 return;
             }
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            Log.d(TAG, "setUpCameraOutputs: check" + e.getReason());
         } catch (NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
@@ -711,9 +803,17 @@ public class Camera2BasicFragment extends Fragment
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            if (null != mImageReader) {
-                mImageReader.close();
-                mImageReader = null;
+            if (null != mJpegImageReader) {
+                mJpegImageReader.close();
+                mJpegImageReader = null;
+            }
+            if(null != mRawImageReader){
+                mRawImageReader.close();
+                mRawImageReader = null;
+            }
+            if(null != mYUVImageReader){
+                mYUVImageReader.close();
+                mYUVImageReader = null;
             }
         } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
@@ -765,8 +865,8 @@ public class Camera2BasicFragment extends Fragment
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
-                    new CameraCaptureSession.StateCallback() {
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mJpegImageReader.getSurface(),
+                    mRawImageReader.getSurface(), mYUVImageReader.getSurface()), new CameraCaptureSession.StateCallback() {
 
                         @Override
                         public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
@@ -891,7 +991,7 @@ public class Camera2BasicFragment extends Fragment
      * {@link #mCaptureCallback} from both {@link #lockFocus()}.
      */
     private void captureStillPicture() {
-        Log.d(TAG, "captureStillPicture: " );
+        Log.d(TAG, "captureStillPicture: ");
         try {
             final Activity activity = getActivity();
             if (null == activity || null == mCameraDevice) {
@@ -900,7 +1000,10 @@ public class Camera2BasicFragment extends Fragment
             // This is the CaptureRequest.Builder that we use to take a picture.
             final CaptureRequest.Builder captureBuilder =
                     mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-            captureBuilder.addTarget(mImageReader.getSurface());
+
+            captureBuilder.addTarget(mJpegImageReader.getSurface());
+            captureBuilder.addTarget(mRawImageReader.getSurface());
+            captureBuilder.addTarget(mYUVImageReader.getSurface());
 
             // Use the same AE and AF modes as the preview.
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
@@ -915,12 +1018,49 @@ public class Camera2BasicFragment extends Fragment
                     = new CameraCaptureSession.CaptureCallback() {
 
                 @Override
+                public void onCaptureStarted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, long timestamp, long frameNumber) {
+                    Log.d(TAG, "onCaptureStarted: ");
+                    super.onCaptureStarted(session, request, timestamp, frameNumber);
+                }
+
+                @Override
+                public void onCaptureProgressed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureResult partialResult) {
+                    Log.d(TAG, "onCaptureProgressed: ");
+                    super.onCaptureProgressed(session, request, partialResult);
+                }
+
+                @Override
+                public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureFailure failure) {
+                    Log.d(TAG, "onCaptureFailed: ");
+                    super.onCaptureFailed(session, request, failure);
+                }
+
+                @Override
+                public void onCaptureSequenceCompleted(@NonNull CameraCaptureSession session, int sequenceId, long frameNumber) {
+                    Log.d(TAG, "onCaptureSequenceCompleted: ");
+                    super.onCaptureSequenceCompleted(session, sequenceId, frameNumber);
+                }
+
+                @Override
+                public void onCaptureSequenceAborted(@NonNull CameraCaptureSession session, int sequenceId) {
+                    Log.d(TAG, "onCaptureSequenceAborted: ");
+                    super.onCaptureSequenceAborted(session, sequenceId);
+                 }
+
+                @Override
+                public void onCaptureBufferLost(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull Surface target, long frameNumber) {
+                    Log.d(TAG, "onCaptureBufferLost: ");
+                    super.onCaptureBufferLost(session, request, target, frameNumber);
+                }
+
+                @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    showToast("Saved: " + mFile);
-                    Log.d(TAG, mFile.toString());
-                    Log.d(TAG, "onCaptureCompleted: capture");
+                    showToast("Saved!");
+                  // Log.d(TAG, mFile.toString());
+                    //Log.d(TAG, "onCaptureCompleted: capture");
+                   // Log.d(TAG, "onCaptureCompleted: check" +(result == null));
                     unlockFocus();
                 }
             };
@@ -1007,57 +1147,160 @@ public class Camera2BasicFragment extends Fragment
         /**
          * The file we save the image into.
          */
-        private final File mFile;
+        private final File fileInnerClass;
+
+        private final CaptureResult mCaptureResult;
+        private final CameraCharacteristics mCharacteristics;
 
         private final Activity mActivity;
 
-        ImageSaver(Image image, File file, Activity mActivity) {
+        ImageSaver(Image image, File file, Activity mActivity, CaptureResult result, CameraCharacteristics characteristics) {
             this.mActivity = mActivity;
             mImage = image;
-            mFile = file;
+            fileInnerClass = file;
+            mCaptureResult = result;
+            mCharacteristics = characteristics;
         }
 
         private void galleryAddPic() {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(mFile);
+            Uri contentUri = Uri.fromFile(fileInnerClass);
             mediaScanIntent.setData(contentUri);
             mActivity.sendBroadcast(mediaScanIntent);
         }
 
         @Override
         public void run() {
-
-            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-
-
-
-            buffer.get(bytes);
-            FileOutputStream output = null;
-            try {
-                output = new FileOutputStream(mFile);
-                output.write(bytes);
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-                mImage.close();
-                galleryAddPic();
-                if (null != output) {
+            int format = mImage.getFormat();
+            switch (format){
+                case ImageFormat.JPEG:{
+                    ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+                    byte[] bytes = new byte[buffer.remaining()];
+                    buffer.get(bytes);
+                    FileOutputStream output = null;
                     try {
-                        output.close();
+                        output = new FileOutputStream(fileInnerClass);
+                        output.write(bytes);
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } finally {
+                        mImage.close();
+                        galleryAddPic();
+                        if (null != output) {
+                            try {
+                                output.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
+                    break;
+                }
+                case ImageFormat.RAW_SENSOR:{
+                    Log.d(TAG, "HanhLTg:  check null " + (mCharacteristics==null) + (mCaptureResult ==null));
+                    DngCreator dngCreator =  new DngCreator(mCharacteristics, mCaptureResult);
+                    FileOutputStream output = null;
+                    try {
+                        output = new FileOutputStream(fileInnerClass);
+                        dngCreator.writeImage(output, mImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        mImage.close();
+                        galleryAddPic();
+                        if (null != output) {
+                            try {
+                                output.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+                }
+                case ImageFormat.YUV_420_888:{
+                   /* ByteBuffer prebuffer = ByteBuffer.allocate(16);
+                    prebuffer.putInt(mImage.getWidth())
+                            .putInt(mImage.getHeight())
+                            .putInt(mImage.getPlanes()[1].getPixelStride())
+                            .putInt(mImage.getPlanes()[1].getRowStride());*/
+
+                    FileOutputStream output = null;
+
+                    ByteArrayOutputStream outputbytes = new ByteArrayOutputStream();
+
+                    ByteBuffer bufferY = mImage.getPlanes()[0].getBuffer();
+                    byte[] data0 = new byte[bufferY.remaining()];
+                    bufferY.get(data0);
+
+                    ByteBuffer bufferU = mImage.getPlanes()[1].getBuffer();
+                    byte[] data1 = new byte[bufferU.remaining()];
+                    bufferU.get(data1);
+
+                    ByteBuffer bufferV = mImage.getPlanes()[2].getBuffer();
+                    byte[] data2 = new byte[bufferV.remaining()];
+                    bufferV.get(data2);
+
+
+                    try{
+                        outputbytes.write(data0);
+                        outputbytes.write(data2);
+                        outputbytes.write(data1);
+
+                        //HanhLTg: YUV > NV21
+                        final YuvImage yuvImage = new YuvImage(outputbytes.toByteArray(), ImageFormat.NV21, mImage.getWidth(),mImage.getHeight(), null);
+                        ByteArrayOutputStream outBitmap = new ByteArrayOutputStream();
+
+                        //NV21 > JPEG
+                        yuvImage.compressToJpeg(new Rect(0, 0,mImage.getWidth(), mImage.getHeight()), 100, outBitmap);
+
+                        byte[] imageBytes = outBitmap.toByteArray();
+                        final Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0 , imageBytes.length);
+
+                        //OUTPUT
+
+                        output = new FileOutputStream(fileInnerClass);
+                        output.write(outBitmap.toByteArray());
+
+                    } catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    } finally {
+                        mImage.close();
+                        if(null != output){
+                            try {
+                                output.close();
+                            } catch (IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
                 }
             }
-
         }
 
     }
 
+    /**
+     * Return true if the given array contains the given integer.
+     *
+     * @param modes array to check.
+     * @param mode  integer to get for.
+     * @return true if the array contains the given integer, otherwise false.
+     */
+    private static boolean contains(int[] modes, int mode) {
+        if (modes == null) {
+            return false;
+        }
+        for (int i : modes) {
+            if (i == mode) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /**
@@ -1073,6 +1316,7 @@ public class Camera2BasicFragment extends Fragment
         }
 
     }
+
 
     /**
      * Shows an error message dialog.
@@ -1106,6 +1350,7 @@ public class Camera2BasicFragment extends Fragment
 
     }
 
+
     /**
      * Shows OK/Cancel confirmation dialog about camera permission.
      */
@@ -1137,5 +1382,27 @@ public class Camera2BasicFragment extends Fragment
                     .create();
         }
     }
-
 }
+
+
+    /*private byte[] convertYUV420ToN21{
+        byte[] rez = new byte[0];
+
+        ByteBuffer buffer0 = mImage.getPlanes()[0].getBuffer();
+        ByteBuffer buffer2 = mImage.getPlanes()[2].getBuffer();
+        int buffer0_size = buffer0.remaining();
+        int buffer2_size = buffer2.remaining();
+        rez = new byte[buffer0_size + buffer2_size];
+
+        buffer0.get(rez, 0, buffer0_size);
+        buffer2.get(rez, buffer0_size, buffer2_size);
+
+        return rez;
+        }
+
+private static byte[] NV21toJPEG(byte[] rez, int width, int height) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        YuvImage yuv = new YuvImage(rez, ImageFormat.NV21, width, height, null);
+        yuv.compressToJpeg(new Rect(0, 0, width, height), 100, out);
+        return out.toByteArray();
+        }*/
