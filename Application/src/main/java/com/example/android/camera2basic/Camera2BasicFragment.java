@@ -46,6 +46,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
@@ -72,17 +73,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.ReadOnlyBufferException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -519,7 +518,7 @@ public class Camera2BasicFragment extends Fragment
         //mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
         mJpegFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "pic.jpg");
         mRawFile  =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "picc.dng");
-        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES ), "YUVpic.jpg");
+        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM ), "YUVpic.jpg");
     }
 
     @Override
@@ -643,7 +642,7 @@ public class Camera2BasicFragment extends Fragment
                 int displayRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
                 //noinspection ConstantConditions
                 mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-                Log.d(TAG, "SENSOR ORIENTATION " + mSensorOrientation);
+                Log.d(TAG, "SENSOR_ORIENTATION " + mSensorOrientation);
                 boolean swappedDimensions = false;
                 switch (displayRotation) {
                     case Surface.ROTATION_0:
@@ -672,41 +671,44 @@ public class Camera2BasicFragment extends Fragment
 
                 //CONTROL_AE_LOCK_AVAILABLE
                 boolean lock = characteristics.get(CameraCharacteristics.CONTROL_AE_LOCK_AVAILABLE);
-                Log.d(TAG, "AE LOCK available: " + lock);
+                Log.d(TAG, "setUpCameraOutputs: AE LOCK available: " + lock);
 
                 //CONTROL_MAX_REGIONS_AWB
                 Integer regionsAWB = characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB);
-                Log.d(TAG, "MAX REGIONS AWB: " + regionsAWB);
+                Log.d(TAG, "setUpCameraOutputs: MAX REGIONS AWB: " + regionsAWB);
 
                 //CONTROL_MAX_REGIONS_AF
                 Integer regionsAF = characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AF);
-                Log.d(TAG, "MAX REGIONS AF: " + regionsAF);
+                Log.d(TAG, "setUpCameraOutputs: MAX REGIONS AF: " + regionsAF);
 
                 //JPEG_AVAILABLE_THUMBNAIL_SIZES
                 Size[] jpegThumbnail = characteristics.get(CameraCharacteristics.JPEG_AVAILABLE_THUMBNAIL_SIZES);
                 for (int i = 0; i < jpegThumbnail.length; i++) {
-                    Log.d(TAG, "JPEG_THUMB: " + jpegThumbnail[i]);
+                    Log.d(TAG, "setUpCameraOutputs: JPEG_THUMB: " + jpegThumbnail[i]);
                 }
 
                 //SENSOR_INFO_EXPOSURE_TIME_RANGE
                 Range<Long> exp_range = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE);
-                Log.d(TAG, "EXPOS_RANGE: " + exp_range.toString());
+                Log.d(TAG, "setUpCameraOutputs: EXPOS_RANGE: " + exp_range.toString());
 
                 //SENSOR_INFO_SENSITIVITY_RANGE
                 Range<Integer> iso_range = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE);
-                Log.d(TAG, "isoRange:  " + iso_range);
+                Log.d(TAG, "setUpCameraOutputs: isoRange:  " + iso_range);
 
                 //
                 StreamConfigurationMap scmap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 Size previewSizes[] = scmap.getOutputSizes(ImageReader.class);
-                Log.d(TAG, "sizesp: " + Arrays.toString(previewSizes));
+                Log.d(TAG, "setUpCameraOutputs: sizesp: " + Arrays.toString(previewSizes));
 
                 //size support for JPEG image
                 StreamConfigurationMap scmap_jpeg = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 Size previewSizes_jpeg[] = scmap.getOutputSizes(ImageFormat.JPEG);
-                Log.d(TAG, "sizesp_ipeg: " + Arrays.toString(previewSizes));
+                Log.d(TAG, "setUpCameraOutputs: sizesp_ipeg: " + Arrays.toString(previewSizes));
 
-
+                //SENSOR_ORIENTATIO
+                Integer orie_ss = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+                Log.d(TAG, "setUpCameraOutputs: ss_orie" + orie_ss);
+                
                 Point displaySize = new Point();
                 activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
                 int rotatedPreviewWidth = width;
@@ -1135,6 +1137,8 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+
+
     /**
      * Saves a JPEG {@link Image} into the specified {@link File}.
      */
@@ -1167,6 +1171,77 @@ public class Camera2BasicFragment extends Fragment
             Uri contentUri = Uri.fromFile(fileInnerClass);
             mediaScanIntent.setData(contentUri);
             mActivity.sendBroadcast(mediaScanIntent);
+        }
+
+        public static Bitmap rotateImage(Bitmap mBitmap, int degree){
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degree);
+           Bitmap rotateImg = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+           mBitmap.recycle();
+            return rotateImg;
+        }
+
+        private static byte[] YUVtoNV21 (Image mImage){
+            Rect crop = mImage.getCropRect();
+            int format = mImage.getFormat();
+            int width = crop.width();
+            int height = crop.height();
+            Image.Plane[] planes = mImage.getPlanes();
+            byte[] data = new byte[width * height * ImageFormat.getBitsPerPixel(format) / 8];
+            byte[] rowData = new byte[planes[0].getRowStride()];
+
+            int channelOffset = 0;
+            int outputStride = 1;
+            for (int i = 0; i < planes.length; i++) {
+                switch (i) {
+                    case 0:
+                        channelOffset = 0;
+                        outputStride = 1;
+                        break;
+                    case 1:
+                        channelOffset = width * height + 1;
+                        outputStride = 2;
+                        break;
+                    case 2:
+                        channelOffset = width * height;
+                        outputStride = 2;
+                        break;
+                }
+
+                ByteBuffer buffer = planes[i].getBuffer();
+                int rowStride = planes[i].getRowStride();
+                int pixelStride = planes[i].getPixelStride();
+
+                int shift = (i == 0) ? 0 : 1;
+                int w = width >> shift;
+                int h = height >> shift;
+                buffer.position(rowStride * (crop.top >> shift) + pixelStride * (crop.left >> shift));
+                for (int row = 0; row < h; row++) {
+                    int length;
+                    if (pixelStride == 1 && outputStride == 1) {
+                        length = w;
+                        buffer.get(data, channelOffset, length);
+                        channelOffset += length;
+                    } else {
+                        length = (w - 1) * pixelStride + 1;
+                        buffer.get(rowData, 0, length);
+                        for (int col = 0; col < w; col++) {
+                            data[channelOffset] = rowData[col * pixelStride];
+                            channelOffset += outputStride;
+                        }
+                    }
+                    if (row < h - 1) {
+                        buffer.position(buffer.position() + rowStride - length);
+                    }
+                }
+            }
+            return data;
+        }
+        private static byte[] NV21toJPEG(byte[] nv21, int width, int height, int quality) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            YuvImage yuv = new YuvImage(nv21, ImageFormat.NV21, width, height, null);
+            yuv.compressToJpeg(new Rect(0, 0, width, height), quality, out);
+            return out.toByteArray();
         }
 
         @Override
@@ -1218,60 +1293,62 @@ public class Camera2BasicFragment extends Fragment
                     }
                     break;
                 }
-                case ImageFormat.YUV_420_888:{
-                   /* ByteBuffer prebuffer = ByteBuffer.allocate(16);
-                    prebuffer.putInt(mImage.getWidth())
-                            .putInt(mImage.getHeight())
-                            .putInt(mImage.getPlanes()[1].getPixelStride())
-                            .putInt(mImage.getPlanes()[1].getRowStride());*/
+                case ImageFormat.YUV_420_888: {
+                    byte[] data;
+                    data = NV21toJPEG(YUVtoNV21(mImage), mImage.getWidth(), mImage.getHeight(), 100);
+                    BufferedOutputStream outputbytes = null;
+                    try {
+                        outputbytes = new BufferedOutputStream(new FileOutputStream(fileInnerClass));
+                        outputbytes.write(data);
+                        outputbytes.flush();
+                        outputbytes.close();
 
-                    FileOutputStream output = null;
+                        //int orie_dev = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+                        ExifInterface exif = new ExifInterface(fileInnerClass.getAbsolutePath());
+                        int orie = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                        int degree = 0;
+                        Log.d(TAG, "run: switch" +orie);
+                         switch (orie){
+                             case ExifInterface.ORIENTATION_NORMAL:{
+                                 exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
+                                 exif.saveAttributes();
+                                 break;
+                             }
+                            case ExifInterface.ORIENTATION_ROTATE_90: {
+                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+                                exif.saveAttributes();
+                                break;
+                            }
 
-                    ByteArrayOutputStream outputbytes = new ByteArrayOutputStream();
+                            case ExifInterface.ORIENTATION_ROTATE_180: {
+                                degree = 180;
+                                break;
+                            }
+                            case ExifInterface.ORIENTATION_ROTATE_270:{
+                               degree = 270;
+                                break;
 
-                    ByteBuffer bufferY = mImage.getPlanes()[0].getBuffer();
-                    byte[] data0 = new byte[bufferY.remaining()];
-                    bufferY.get(data0);
-
-                    ByteBuffer bufferU = mImage.getPlanes()[1].getBuffer();
-                    byte[] data1 = new byte[bufferU.remaining()];
-                    bufferU.get(data1);
-
-                    ByteBuffer bufferV = mImage.getPlanes()[2].getBuffer();
-                    byte[] data2 = new byte[bufferV.remaining()];
-                    bufferV.get(data2);
+                            }
+                        }
 
 
-                    try{
-                        outputbytes.write(data0);
-                        outputbytes.write(data2);
-                        outputbytes.write(data1);
+                        /*
+                        ExifInterface exif = new ExifInterface(fileInnerClass.getAbsolutePath());
+                       // exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+                        //exif.setAttribute(ExifInterface.TAG_ORIENTATION, "90");
+                        exif.saveAttributes();*/
 
-                        //HanhLTg: YUV > NV21
-                        final YuvImage yuvImage = new YuvImage(outputbytes.toByteArray(), ImageFormat.NV21, mImage.getWidth(),mImage.getHeight(), null);
-                        ByteArrayOutputStream outBitmap = new ByteArrayOutputStream();
-
-                        //NV21 > JPEG
-                        yuvImage.compressToJpeg(new Rect(0, 0,mImage.getWidth(), mImage.getHeight()), 100, outBitmap);
-
-                        byte[] imageBytes = outBitmap.toByteArray();
-                        final Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0 , imageBytes.length);
-
-                        //OUTPUT
-
-                        output = new FileOutputStream(fileInnerClass);
-                        output.write(outBitmap.toByteArray());
-
-                    } catch (FileNotFoundException e){
+                    } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                    } catch (IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
                         mImage.close();
-                        if(null != output){
+                        galleryAddPic();
+                        if (null != outputbytes) {
                             try {
-                                output.close();
-                            } catch (IOException e){
+                                outputbytes.close();
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -1317,6 +1394,22 @@ public class Camera2BasicFragment extends Fragment
 
     }
 
+    /** Rotation need to transform from the camera sensor orientation to thr device's current orientation */
+    private static int sensorToDeviceRotation(CameraCharacteristics c, int deviceOrientation) {
+        int sensorOrientation = c.get(CameraCharacteristics.SENSOR_ORIENTATION);
+
+        // Get device orientation in degrees
+        deviceOrientation = ORIENTATIONS.get(deviceOrientation);
+
+        // Reverse device orientation for front-facing cameras
+        if (c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
+            deviceOrientation = -deviceOrientation;
+        }
+
+        // Calculate desired JPEG orientation relative to camera orientation to make
+        // the image upright relative to the device orientation
+        return (sensorOrientation - deviceOrientation + 360) % 360;
+    }
 
     /**
      * Shows an error message dialog.
@@ -1383,26 +1476,3 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 }
-
-
-    /*private byte[] convertYUV420ToN21{
-        byte[] rez = new byte[0];
-
-        ByteBuffer buffer0 = mImage.getPlanes()[0].getBuffer();
-        ByteBuffer buffer2 = mImage.getPlanes()[2].getBuffer();
-        int buffer0_size = buffer0.remaining();
-        int buffer2_size = buffer2.remaining();
-        rez = new byte[buffer0_size + buffer2_size];
-
-        buffer0.get(rez, 0, buffer0_size);
-        buffer2.get(rez, buffer0_size, buffer2_size);
-
-        return rez;
-        }
-
-private static byte[] NV21toJPEG(byte[] rez, int width, int height) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        YuvImage yuv = new YuvImage(rez, ImageFormat.NV21, width, height, null);
-        yuv.compressToJpeg(new Rect(0, 0, width, height), 100, out);
-        return out.toByteArray();
-        }*/
