@@ -80,11 +80,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -103,6 +106,7 @@ public class Camera2BasicFragment extends Fragment
         ORIENTATIONS.append(Surface.ROTATION_90, 0);
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
+
     }
 
 
@@ -249,7 +253,6 @@ public class Camera2BasicFragment extends Fragment
     /**
      * An {@link ImageReader} that handles still image capture.
      */
-    private ImageReader mImageReader;
     private ImageReader mJpegImageReader, mRawImageReader, mYUVImageReader;
     /**
      * This is the output file for our picture.
@@ -512,13 +515,20 @@ public class Camera2BasicFragment extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
     }
 
+    public static String generateTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.US);
+        return sdf.format(new Date());
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        String curentDateTime = generateTimestamp();
         //mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-        mJpegFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "pic.jpg");
-        mRawFile  =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "picc.dng");
-        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM ), "YUVpic.jpg");
+        mJpegFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "JPEG_pic_"+curentDateTime+".jpg");
+        mRawFile  =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "RAW_pic_" +curentDateTime+".dng");
+        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM ), "YUV_pic"+curentDateTime+".jpg");
     }
 
     @Override
@@ -1180,6 +1190,47 @@ public class Camera2BasicFragment extends Fragment
            mBitmap.recycle();
             return rotateImg;
         }
+        /**
+         * Returns the Orientation ExifTag value for a given number of degrees.
+         *
+         * @param degrees the amount an image is rotated in degrees.
+         */
+        private static short getOrientationValueForRotation(int degrees) {
+            degrees %= 360;
+            if (degrees < 0) {
+                degrees += 360;
+            }
+            if (degrees < 90) {
+                return Orientation.TOP_LEFT; // 0 degrees
+            } else if (degrees < 180) {
+                return Orientation.RIGHT_TOP; // 90 degrees cw
+            } else if (degrees < 270) {
+                return Orientation.BOTTOM_LEFT; // 180 degrees
+            } else {
+                return Orientation.RIGHT_BOTTOM; // 270 degrees cw
+            }
+        }
+
+        /**
+         * Returns the rotation degrees corresponding to an ExifTag Orientation
+         * value.
+         *
+         * @param orientation the ExifTag Orientation value.
+         */
+        private static int getRotationForOrientationValue(short orientation) {
+            switch (orientation) {
+                case Orientation.TOP_LEFT:
+                    return 0;
+                case Orientation.RIGHT_TOP:
+                    return 90;
+                case Orientation.BOTTOM_LEFT:
+                    return 180;
+                case Orientation.RIGHT_BOTTOM:
+                    return 270;
+                default:
+                    return 0;
+            }
+        }
 
         private static byte[] YUVtoNV21 (Image mImage){
             Rect crop = mImage.getCropRect();
@@ -1303,29 +1354,32 @@ public class Camera2BasicFragment extends Fragment
                         outputbytes.flush();
                         outputbytes.close();
 
-                        //int orie_dev = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+                        int orie_dev = mActivity.getWindowManager().getDefaultDisplay().getRotation();
                         ExifInterface exif = new ExifInterface(fileInnerClass.getAbsolutePath());
-                        int orie = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                        //int orie = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
                         int degree = 0;
-                        Log.d(TAG, "run: switch" +orie);
-                         switch (orie){
-                             case ExifInterface.ORIENTATION_NORMAL:{
-                                 exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
+                        Log.d(TAG, "run: switch  " +orie_dev);
+                         switch (orie_dev){
+                             case Surface.ROTATION_0:{
+                                 exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
                                  exif.saveAttributes();
                                  break;
                              }
-                            case ExifInterface.ORIENTATION_ROTATE_90: {
-                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+                            case Surface.ROTATION_90: {
+                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
                                 exif.saveAttributes();
                                 break;
                             }
 
-                            case ExifInterface.ORIENTATION_ROTATE_180: {
-                                degree = 180;
+                            case Surface.ROTATION_180: {
+                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
+                                exif.saveAttributes();
+
                                 break;
                             }
-                            case ExifInterface.ORIENTATION_ROTATE_270:{
-                               degree = 270;
+                            case Surface.ROTATION_270:{
+                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
+                                exif.saveAttributes();
                                 break;
 
                             }
@@ -1410,6 +1464,21 @@ public class Camera2BasicFragment extends Fragment
         // the image upright relative to the device orientation
         return (sensorOrientation - deviceOrientation + 360) % 360;
     }
+
+
+
+    private static interface Orientation {
+        public static final short TOP_LEFT = 1;
+        public static final short TOP_RIGHT = 2;
+        public static final short BOTTOM_LEFT = 3;
+        public static final short BOTTOM_RIGHT = 4;
+        public static final short LEFT_TOP = 5;
+        public static final short RIGHT_TOP = 6;
+        public static final short LEFT_BOTTOM = 7;
+        public static final short RIGHT_BOTTOM = 8;
+    }
+
+
 
     /**
      * Shows an error message dialog.

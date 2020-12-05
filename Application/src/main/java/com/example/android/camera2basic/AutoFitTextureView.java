@@ -65,21 +65,21 @@ public class AutoFitTextureView extends TextureView {
         if (0 == mRatioWidth || 0 == mRatioHeight) {
             setMeasuredDimension(width, height);
         }
-        /** else {
+         else {
             if (width < height * mRatioWidth / mRatioHeight) {
                 setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
             } else {
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
-            }
-        } */
-
-        else{
-            if (width < height * mRatioWidth / mRatioHeight) {
-                setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
-            } else {
-                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
             }
         }
+
+       /* else{
+            if (width < height * mRatioWidth / mRatioHeight) {
+                setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
+            } else {
+                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
+            }
+        }*/
     }
 
 }
