@@ -779,6 +779,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Opens the camera specified by {@link Camera2BasicFragment#mCameraId}.
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void openCamera(int width, int height) {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -904,7 +905,7 @@ public class Camera2BasicFragment extends Fragment
                                 // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
                                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                                        mCaptureCallback, mBackgroundHandler);
+                                        null, mBackgroundHandler);
 
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
