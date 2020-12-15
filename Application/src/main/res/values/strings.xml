@@ -18,4 +18,13 @@
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="video">VIDEO</string>
+    <string name="portrait">PORTRAIT</string>
+    <string name="photo">PHOTO</string>
+    <string name="nigth">NIGTH</string>
+    <string name="square">SQUARE</string>
+    <string name="more_mode">MORE MODE</string>
+    <string name="expose">TODO</string>
+    <string name="iso">TODO</string>
+    <string name="autoWhite">TODO</string>
 </resources>

@@ -1,35 +1,63 @@
 [
     {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_flip_cammm.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_flip_cammm.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_flash_on.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_flash_on.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_flash_auto.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_flash_auto.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_exposure.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_exposure.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_flip_cammm.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_flip_cammm.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_flash_off.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_flash_off.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_white_balance.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_white_balance.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_flip_cam.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_flip_cam.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_white_balance.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_white_balance.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_flip_cam.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_flip_cam.png"
+    },
+    {
         "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_action_info.png.flat",
         "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-hdpi/ic_action_info.png"
     },
     {
-        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_launcher.png.flat",
-        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-hdpi/ic_launcher.png"
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_white_balance.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_white_balance.png"
     },
     {
         "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_launcher.png.flat",
         "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/layout-land_fragment_camera2_basic.xml.flat",
-        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/layout-land/fragment_camera2_basic.xml"
-    },
-    {
         "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/layout_fragment_camera2_basic.xml.flat",
         "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/layout/fragment_camera2_basic.xml"
     },
     {
-        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/layout_activity_camera.xml.flat",
-        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/layout/activity_camera.xml"
-    },
-    {
         "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_action_info.png.flat",
         "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-xhdpi/ic_action_info.png"
-    },
-    {
-        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_launcher.png.flat",
-        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-xhdpi/ic_launcher.png"
     },
     {
         "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_action_info.png.flat",
@@ -40,11 +68,155 @@
         "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-hdpi/tile.9.png"
     },
     {
-        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_action_info.png.flat",
-        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-xxhdpi/ic_action_info.png"
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_flip_cammm.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_flip_cammm.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_exposure.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_exposure.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_flash_on.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_flash_on.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_flash_off.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_flash_off.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_flash_auto.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_flash_auto.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_exposure.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_exposure.png"
     },
     {
         "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_launcher.png.flat",
         "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_launcher.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_flip_cam.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_flip_cam.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_iso.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_iso.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/layout_activity_camera.xml.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/layout/activity_camera.xml"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_launcher.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_flip_cammm.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_flip_cammm.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_iso.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_iso.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_flash_off.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_flash_off.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable_ic_baseline_flip_camera.xml.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable/ic_baseline_flip_camera.xml"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_exposure.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_exposure.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_iso.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_iso.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_white_balance.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_white_balance.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_flash_off.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxhdpi/ic_flash_off.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-anydpi_ic_flip_cammm.xml.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-anydpi/ic_flip_cammm.xml"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_exposure.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_exposure.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_flash_on.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_flash_on.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable_ic_flip_camera_android_24px.xml.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable/ic_flip_camera_android_24px.xml"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_iso.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_iso.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/layout-land_fragment_camera2_basic.xml.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/layout-land/fragment_camera2_basic.xml"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable_ic_baseline_more.xml.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable/ic_baseline_more.xml"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_flash_auto.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_flash_auto.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_flash_on.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xxxhdpi/ic_flash_on.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_flip_cam.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_flip_cam.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xhdpi_ic_flash_auto.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-xhdpi/ic_flash_auto.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_white_balance.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_white_balance.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_flash_on.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_flash_on.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_flash_off.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_flash_off.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_action_info.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/res/drawable-xxhdpi/ic_action_info.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-mdpi_ic_iso.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-mdpi/ic_iso.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_flash_auto.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_flash_auto.png"
+    },
+    {
+        "merged": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/res/merged/debug/drawable-hdpi_ic_flip_cam.png.flat",
+        "source": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/src/template/res/drawable-hdpi/ic_flip_cam.png"
     }
 ]

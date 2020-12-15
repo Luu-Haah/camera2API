@@ -17,6 +17,7 @@
 package com.example.android.camera2basic;
 
 import android.Manifest;
+import android.accessibilityservice.GestureDescription;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,6 +35,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -71,6 +73,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
@@ -153,6 +156,7 @@ public class Camera2BasicFragment extends Fragment
     private CaptureResult mCaptureResult;
     private CameraCharacteristics mCharacteristics;
 
+
     /**
      * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
      * {@link TextureView}.
@@ -184,7 +188,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * ID of the current {@link CameraDevice}.
      */
-    private String mCameraId;
+    private String mCameraId ;
 
     /**
      * An {@link AutoFitTextureView} for camera preview.
@@ -257,7 +261,6 @@ public class Camera2BasicFragment extends Fragment
     /**
      * This is the output file for our picture.
      */
-    private File mFile;
     private File mJpegFile, mRawFile, mYUVFile;
 
     /**
@@ -365,10 +368,12 @@ public class Camera2BasicFragment extends Fragment
                             mState = STATE_PICTURE_TAKEN;
                             captureStillPicture();
                             Log.d(TAG, "process: 2");
-                        } else if (result.get(CaptureResult.CONTROL_AE_MODE) == CaptureResult.CONTROL_AE_MODE_OFF) {
+                        }
+                        /** else if (result.get(CaptureResult.CONTROL_AE_MODE) == CaptureResult.CONTROL_AE_MODE_OFF) {
                             mState = STATE_PICTURE_TAKEN;
                             captureStillPicture();
-                        } else {
+                         } */
+                        else {
                             runPrecaptureSequence();
                         }
                     }
@@ -415,6 +420,7 @@ public class Camera2BasicFragment extends Fragment
         }
 
     };
+    private int cameraType;
 
     /**
      * Shows a {@link Toast} on the UI thread.
@@ -464,12 +470,7 @@ public class Camera2BasicFragment extends Fragment
         int w = aspectRatio.getWidth();
         int h = aspectRatio.getHeight();
 
-
-
         for (Size option : choices) {
-
-
-
             if (option.getWidth() <= maxWidth &&
                     option.getHeight() <= maxHeight &&
                     option.getHeight() == option.getWidth() * h / w) {
@@ -480,11 +481,7 @@ public class Camera2BasicFragment extends Fragment
                     notBigEnough.add(option);
                 }
             }
-
-
         }
-
-
 
         // Pick the smallest of those big enough. If there is no one big enough, pick the
         // largest of those not big enough.
@@ -511,7 +508,7 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.picture).setOnClickListener(this);
-        view.findViewById(R.id.info).setOnClickListener(this);
+        view.findViewById(R.id.flip_cam).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
     }
 
@@ -524,13 +521,13 @@ public class Camera2BasicFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        String curentDateTime = generateTimestamp();
-        //mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-        mJpegFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "JPEG_pic_"+curentDateTime+".jpg");
-        mRawFile  =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "RAW_pic_" +curentDateTime+".dng");
-        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM ), "YUV_pic"+curentDateTime+".jpg");
+        String currentDateTime = generateTimestamp();
+        mJpegFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "JPEG_pic_"+currentDateTime+".jpg");
+        mRawFile  =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "RAW_pic_" +currentDateTime+".dng");
+        mYUVFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM ), "YUV_pic"+currentDateTime+".jpg");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onResume() {
         super.onResume();
@@ -575,6 +572,22 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+    private int mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+    /** Flip camera */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void switchCamera(){
+        mCameraOpenCloseLock.release();
+        if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
+            mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
+            closeCamera();
+            onResume();
+
+        } else if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_BACK) {
+            mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+            closeCamera();
+            onResume();
+        }
+    }
     /**
      * Sets up member variables related to camera.
      *
@@ -590,14 +603,12 @@ public class Camera2BasicFragment extends Fragment
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
-                Log.d(TAG, "setUpCameraOutputs: " + String.valueOf(cameraId));
+                Log.d(TAG, "setUpCameraOutputs: camera ID " + String.valueOf(cameraId));
 
-                // We don't use a front facing camera in this sample.
                 Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+                if (facing != null && facing != mCameraLensFacingDirection){
                     continue;
                 }
-
                 if (!contains(characteristics.get(
                         CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES),
                         CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_RAW)) {
@@ -617,8 +628,6 @@ public class Camera2BasicFragment extends Fragment
                         new CompareSizesByArea());
                 mJpegImageReader = ImageReader.newInstance(largestJpeg.getWidth(), largestJpeg.getHeight(),
                         ImageFormat.JPEG, 2);
-
-
                 //mImageReader = ImageReader.newInstance(4000, 2000, ImageFormat.JPEG, /*maxImages*/2);
 
                 //MAX RAW
@@ -671,53 +680,6 @@ public class Camera2BasicFragment extends Fragment
                         Log.e(TAG, "Display rotation is invalid: " + displayRotation);
                 }
 
-                //CONTROL_AE_COMPENSATION_RANGE
-                Range<Integer> range = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE);
-                Log.d(TAG, "AE RANGE:" + range.getLower() + " " + range.getUpper());
-
-                //CONTROL_AE_COMPENSATION_STEP
-                Rational step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP);
-                Log.d(TAG, "Size COMP step: " + step.getNumerator() + " " + step.getDenominator());
-
-                //CONTROL_AE_LOCK_AVAILABLE
-                boolean lock = characteristics.get(CameraCharacteristics.CONTROL_AE_LOCK_AVAILABLE);
-                Log.d(TAG, "setUpCameraOutputs: AE LOCK available: " + lock);
-
-                //CONTROL_MAX_REGIONS_AWB
-                Integer regionsAWB = characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB);
-                Log.d(TAG, "setUpCameraOutputs: MAX REGIONS AWB: " + regionsAWB);
-
-                //CONTROL_MAX_REGIONS_AF
-                Integer regionsAF = characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AF);
-                Log.d(TAG, "setUpCameraOutputs: MAX REGIONS AF: " + regionsAF);
-
-                //JPEG_AVAILABLE_THUMBNAIL_SIZES
-                Size[] jpegThumbnail = characteristics.get(CameraCharacteristics.JPEG_AVAILABLE_THUMBNAIL_SIZES);
-                for (int i = 0; i < jpegThumbnail.length; i++) {
-                    Log.d(TAG, "setUpCameraOutputs: JPEG_THUMB: " + jpegThumbnail[i]);
-                }
-
-                //SENSOR_INFO_EXPOSURE_TIME_RANGE
-                Range<Long> exp_range = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE);
-                Log.d(TAG, "setUpCameraOutputs: EXPOS_RANGE: " + exp_range.toString());
-
-                //SENSOR_INFO_SENSITIVITY_RANGE
-                Range<Integer> iso_range = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE);
-                Log.d(TAG, "setUpCameraOutputs: isoRange:  " + iso_range);
-
-                //
-                StreamConfigurationMap scmap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                Size previewSizes[] = scmap.getOutputSizes(ImageReader.class);
-                Log.d(TAG, "setUpCameraOutputs: sizesp: " + Arrays.toString(previewSizes));
-
-                //size support for JPEG image
-                StreamConfigurationMap scmap_jpeg = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                Size previewSizes_jpeg[] = scmap.getOutputSizes(ImageFormat.JPEG);
-                Log.d(TAG, "setUpCameraOutputs: sizesp_ipeg: " + Arrays.toString(previewSizes));
-
-                //SENSOR_ORIENTATIO
-                Integer orie_ss = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-                Log.d(TAG, "setUpCameraOutputs: ss_orie" + orie_ss);
                 
                 Point displaySize = new Point();
                 activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
@@ -767,7 +729,6 @@ public class Camera2BasicFragment extends Fragment
             }
         } catch (CameraAccessException e) {
             e.printStackTrace();
-            Log.d(TAG, "setUpCameraOutputs: check" + e.getReason());
         } catch (NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
@@ -794,6 +755,8 @@ public class Camera2BasicFragment extends Fragment
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
+            Log.d(TAG, "openCamera: " +mCameraId);
+
             manager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -897,15 +860,17 @@ public class Camera2BasicFragment extends Fragment
                                 // Flash is automatically enabled when necessary.
                                 setAutoFlash(mPreviewRequestBuilder);
 
+                                /**
                                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
                                 mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, 100000000L);
                                 mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, 50);
+                                 */
 
 
                                 // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
                                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                                        null, mBackgroundHandler);
+                                        mCaptureCallback, mBackgroundHandler);
 
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
@@ -968,17 +933,12 @@ public class Camera2BasicFragment extends Fragment
      * Lock the focus as the first step for a still image capture.
      */
     private void lockFocus() {
-        try {
-            // This is how to tell the camera to lock focus.
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CameraMetadata.CONTROL_AF_TRIGGER_START);
-            // Tell #mCaptureCallback to wait for the lock.
-            mState = STATE_WAITING_LOCK;
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
-                    mBackgroundHandler);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
+        // This is how to tell the camera to lock focus.
+        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                CameraMetadata.CONTROL_AF_TRIGGER_START);
+        // Tell #mCaptureCallback to wait for the lock.
+        mState = STATE_WAITING_LOCK;
+        captureStillPicture();
     }
 
     /**
@@ -1071,7 +1031,6 @@ public class Camera2BasicFragment extends Fragment
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
                     showToast("Saved!");
-                  // Log.d(TAG, mFile.toString());
                     //Log.d(TAG, "onCaptureCompleted: capture");
                    // Log.d(TAG, "onCaptureCompleted: check" +(result == null));
                     unlockFocus();
@@ -1128,14 +1087,8 @@ public class Camera2BasicFragment extends Fragment
                 takePicture();
                 break;
             }
-            case R.id.info: {
-                Activity activity = getActivity();
-                if (null != activity) {
-                    new AlertDialog.Builder(activity)
-                            .setMessage(R.string.intro_message)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show();
-                }
+            case R.id.flip_cam: {
+                switchCamera();
                 break;
             }
         }
@@ -1177,6 +1130,9 @@ public class Camera2BasicFragment extends Fragment
             mCharacteristics = characteristics;
         }
 
+        /**
+         * Update media store
+         */
         private void galleryAddPic() {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(fileInnerClass);
@@ -1184,55 +1140,11 @@ public class Camera2BasicFragment extends Fragment
             mActivity.sendBroadcast(mediaScanIntent);
         }
 
-        public static Bitmap rotateImage(Bitmap mBitmap, int degree){
-            Matrix matrix = new Matrix();
-            matrix.postRotate(degree);
-           Bitmap rotateImg = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
-           mBitmap.recycle();
-            return rotateImg;
-        }
         /**
-         * Returns the Orientation ExifTag value for a given number of degrees.
-         *
-         * @param degrees the amount an image is rotated in degrees.
+         *  YUV format
+         * @param mImage
+         * @return
          */
-        private static short getOrientationValueForRotation(int degrees) {
-            degrees %= 360;
-            if (degrees < 0) {
-                degrees += 360;
-            }
-            if (degrees < 90) {
-                return Orientation.TOP_LEFT; // 0 degrees
-            } else if (degrees < 180) {
-                return Orientation.RIGHT_TOP; // 90 degrees cw
-            } else if (degrees < 270) {
-                return Orientation.BOTTOM_LEFT; // 180 degrees
-            } else {
-                return Orientation.RIGHT_BOTTOM; // 270 degrees cw
-            }
-        }
-
-        /**
-         * Returns the rotation degrees corresponding to an ExifTag Orientation
-         * value.
-         *
-         * @param orientation the ExifTag Orientation value.
-         */
-        private static int getRotationForOrientationValue(short orientation) {
-            switch (orientation) {
-                case Orientation.TOP_LEFT:
-                    return 0;
-                case Orientation.RIGHT_TOP:
-                    return 90;
-                case Orientation.BOTTOM_LEFT:
-                    return 180;
-                case Orientation.RIGHT_BOTTOM:
-                    return 270;
-                default:
-                    return 0;
-            }
-        }
-
         private static byte[] YUVtoNV21 (Image mImage){
             Rect crop = mImage.getCropRect();
             int format = mImage.getFormat();
@@ -1296,6 +1208,9 @@ public class Camera2BasicFragment extends Fragment
             return out.toByteArray();
         }
 
+        /**
+         * save Image
+         */
         @Override
         public void run() {
             int format = mImage.getFormat();
@@ -1448,38 +1363,6 @@ public class Camera2BasicFragment extends Fragment
         }
 
     }
-
-    /** Rotation need to transform from the camera sensor orientation to thr device's current orientation */
-    private static int sensorToDeviceRotation(CameraCharacteristics c, int deviceOrientation) {
-        int sensorOrientation = c.get(CameraCharacteristics.SENSOR_ORIENTATION);
-
-        // Get device orientation in degrees
-        deviceOrientation = ORIENTATIONS.get(deviceOrientation);
-
-        // Reverse device orientation for front-facing cameras
-        if (c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
-            deviceOrientation = -deviceOrientation;
-        }
-
-        // Calculate desired JPEG orientation relative to camera orientation to make
-        // the image upright relative to the device orientation
-        return (sensorOrientation - deviceOrientation + 360) % 360;
-    }
-
-
-
-    private static interface Orientation {
-        public static final short TOP_LEFT = 1;
-        public static final short TOP_RIGHT = 2;
-        public static final short BOTTOM_LEFT = 3;
-        public static final short BOTTOM_RIGHT = 4;
-        public static final short LEFT_TOP = 5;
-        public static final short RIGHT_TOP = 6;
-        public static final short LEFT_BOTTOM = 7;
-        public static final short RIGHT_BOTTOM = 8;
-    }
-
-
 
     /**
      * Shows an error message dialog.
