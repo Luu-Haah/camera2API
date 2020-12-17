@@ -273,7 +273,7 @@ public class Camera2BasicFragment extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mJpegFile, getActivity(),
-                    mCaptureResult, mCharacteristics));
+                    mCaptureResult, mCharacteristics, mCameraId));
         }
 
     };
@@ -285,7 +285,7 @@ public class Camera2BasicFragment extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mRawFile, getActivity(),
-                    mCaptureResult, mCharacteristics));
+                    mCaptureResult, mCharacteristics, mCameraId));
 
         }
 
@@ -298,7 +298,7 @@ public class Camera2BasicFragment extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mYUVFile, getActivity(),
-                    mCaptureResult, mCharacteristics));
+                    mCaptureResult, mCharacteristics, mCameraId));
 
         }
     };
@@ -510,6 +510,10 @@ public class Camera2BasicFragment extends Fragment
         view.findViewById(R.id.picture).setOnClickListener(this);
         view.findViewById(R.id.flip_cam).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        if (savedInstanceState != null) {
+            int save = savedInstanceState.getInt(CURRENT_CAMERA_ID_STRING);
+            Log.d(TAG, "onViewCreated: HanhLTg camid = " + save);
+        }
     }
 
     public static String generateTimestamp() {
@@ -572,7 +576,7 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    private int mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+    private int mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
     /** Flip camera */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void switchCamera(){
@@ -1106,7 +1110,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Saves a JPEG {@link Image} into the specified {@link File}.
      */
-    private static class ImageSaver implements Runnable {
+    private class ImageSaver implements Runnable {
 
         /**
          * The JPEG image
@@ -1119,17 +1123,17 @@ public class Camera2BasicFragment extends Fragment
 
         private final CaptureResult mCaptureResult;
         private final CameraCharacteristics mCharacteristics;
-
+        private String mCameraId;
         private final Activity mActivity;
 
-        ImageSaver(Image image, File file, Activity mActivity, CaptureResult result, CameraCharacteristics characteristics) {
+        ImageSaver(Image image, File file, Activity mActivity, CaptureResult result, CameraCharacteristics characteristics, String CameraId) {
             this.mActivity = mActivity;
             mImage = image;
             fileInnerClass = file;
             mCaptureResult = result;
             mCharacteristics = characteristics;
+            mCameraId = CameraId;
         }
-
         /**
          * Update media store
          */
@@ -1145,7 +1149,7 @@ public class Camera2BasicFragment extends Fragment
          * @param mImage
          * @return
          */
-        private static byte[] YUVtoNV21 (Image mImage){
+        private byte[] YUVtoNV21 (Image mImage){
             Rect crop = mImage.getCropRect();
             int format = mImage.getFormat();
             int width = crop.width();
@@ -1201,7 +1205,7 @@ public class Camera2BasicFragment extends Fragment
             }
             return data;
         }
-        private static byte[] NV21toJPEG(byte[] nv21, int width, int height, int quality) {
+        private byte[] NV21toJPEG(byte[] nv21, int width, int height, int quality) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             YuvImage yuv = new YuvImage(nv21, ImageFormat.NV21, width, height, null);
             yuv.compressToJpeg(new Rect(0, 0, width, height), quality, out);
@@ -1223,6 +1227,43 @@ public class Camera2BasicFragment extends Fragment
                     try {
                         output = new FileOutputStream(fileInnerClass);
                         output.write(bytes);
+                        int orie_dev = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+                        ExifInterface exif = new ExifInterface(fileInnerClass.getAbsolutePath());
+                        switch (mCameraId){
+                            case "0":{
+                                output = new FileOutputStream(fileInnerClass);
+                                output.write(bytes);
+                                break;
+                            }
+                            case "1":{
+                                switch (orie_dev){
+                                    case Surface.ROTATION_0:{
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
+                                        exif.saveAttributes();
+                                        break;
+                                    }
+                                    case Surface.ROTATION_90: {
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
+                                        exif.saveAttributes();
+                                        break;
+                                    }
+
+                                    case Surface.ROTATION_180: {
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
+                                        exif.saveAttributes();
+
+                                        break;
+                                    }
+                                    case Surface.ROTATION_270:{
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
+                                        exif.saveAttributes();
+                                        break;
+
+                                    }
+                                }
+                                break;
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -1275,38 +1316,64 @@ public class Camera2BasicFragment extends Fragment
                         //int orie = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
                         int degree = 0;
                         Log.d(TAG, "run: switch  " +orie_dev);
-                         switch (orie_dev){
-                             case Surface.ROTATION_0:{
-                                 exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
-                                 exif.saveAttributes();
-                                 break;
-                             }
-                            case Surface.ROTATION_90: {
-                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
-                                exif.saveAttributes();
+                        switch (mCameraId){
+                            case  "0":{
+                                switch (orie_dev){
+                                    case Surface.ROTATION_0:{
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+                                        exif.saveAttributes();
+                                        break;
+                                    }
+                                    case Surface.ROTATION_90: {
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
+                                        exif.saveAttributes();
+                                        break;
+                                    }
+
+                                    case Surface.ROTATION_180: {
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
+                                        exif.saveAttributes();
+
+                                        break;
+                                    }
+                                    case Surface.ROTATION_270:{
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
+                                        exif.saveAttributes();
+                                        break;
+
+                                    }
+                                }
                                 break;
                             }
+                            case "1":{
+                                switch (orie_dev){
+                                    case Surface.ROTATION_0:{
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
+                                        exif.saveAttributes();
+                                        break;
+                                    }
+                                    case Surface.ROTATION_90: {
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_NORMAL));
+                                        exif.saveAttributes();
+                                        break;
+                                    }
 
-                            case Surface.ROTATION_180: {
-                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
-                                exif.saveAttributes();
+                                    case Surface.ROTATION_180: {
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+                                        exif.saveAttributes();
 
+                                        break;
+                                    }
+                                    case Surface.ROTATION_270:{
+                                        exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
+                                        exif.saveAttributes();
+                                        break;
+
+                                    }
+                                }
                                 break;
-                            }
-                            case Surface.ROTATION_270:{
-                                exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
-                                exif.saveAttributes();
-                                break;
-
                             }
                         }
-
-
-                        /*
-                        ExifInterface exif = new ExifInterface(fileInnerClass.getAbsolutePath());
-                       // exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
-                        //exif.setAttribute(ExifInterface.TAG_ORIENTATION, "90");
-                        exif.saveAttributes();*/
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -1427,5 +1494,12 @@ public class Camera2BasicFragment extends Fragment
                             })
                     .create();
         }
+    }
+
+    public static final String CURRENT_CAMERA_ID_STRING = "current_camera_id_string";
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(CURRENT_CAMERA_ID_STRING, mCameraLensFacingDirection);
+        super.onSaveInstanceState(outState);
     }
 }
