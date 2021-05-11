@@ -13,156 +13,114 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:backgroundTint="#FFFFFF"
     android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/texture"/>
+
     <com.example.android.camera2basic.AutoFitTextureView
         android:id="@+id/texture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top"
         />
 
-    <RelativeLayout
-
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/panel_base"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <FrameLayout
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
-
-            <ImageButton
-                android:id="@+id/exposure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/expose"
-                app:srcCompat="@drawable/ic_exposure" />
-
-            <ImageButton
-                android:id="@+id/iso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/iso"
-                app:srcCompat="@drawable/ic_iso" />
-
-            <ImageButton
-                android:id="@+id/autoWhite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/autoWhite"
-                app:srcCompat="@drawable/ic_white_balance" />
-
-        </FrameLayout>
-
-        <FrameLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/control"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:background="#AD000000"
             android:foreground="@android:color/transparent">
 
-            <Button
-                android:id="@+id/picture"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/picture" />
-
-            <ImageButton
-                android:id="@+id/flip_cam"
-                android:layout_width="104dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/description_info"
-                android:padding="20dp"
-                app:srcCompat="@drawable/ic_flip_cam" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <Button
+                    android:id="@+id/mot_mot"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="1:1"/>
 
-                    <Button
-                        android:id="@+id/portrait"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:text="@string/portrait"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/bon_ba"
+                    app:layout_constraintStart_toEndOf="@+id/mot_mot"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4:3"/>
+                <Button
+                    android:id="@+id/muoisau_chin"
+                    app:layout_constraintStart_toEndOf="@+id/bon_ba"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="16:9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-                    <Button
-                        android:id="@+id/video"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:text="@string/video"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/muoitam_chin"
+                    app:layout_constraintStart_toEndOf="@+id/muoisau_chin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="18:9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </android.support.constraint.ConstraintLayout>
 
-                    <Button
-                        android:id="@+id/photo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:text="@string/photo"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+                <Button
+                    android:id="@+id/picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/picture" />
+                <ImageButton
+                    android:id="@+id/flip_cam"
+                    android:layout_width="104dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/description_info"
+                    android:padding="20dp"
+                    app:srcCompat="@drawable/ic_flip_cam" />
+            </FrameLayout>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-                    <Button
-                        android:id="@+id/square"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:text="@string/square"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:text="@string/more_mode"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-        </FrameLayout>
-
-
-    </RelativeLayout>
-
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

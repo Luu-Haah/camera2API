@@ -1,7 +1,7 @@
-#Thu Dec 17 13:49:09 ICT 2020
-base.0=/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+#Tue May 11 23:47:46 GMT+07:00 2021
+base.0=D\:\\AndroidProject\\camera2API\\Application\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/dex/debug/mergeProjectDexDebug/classes.dex
+base.1=D\:\\AndroidProject\\camera2API\\Application\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\classes.dex

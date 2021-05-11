@@ -73,6 +73,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -110,6 +111,10 @@ public class Camera2BasicFragment extends Fragment
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
 
+    }
+
+enum CameraRatio{
+        MOT_MOT, BON_BA, MUOISAU_CHIN, MUOITAM_CHIN
     }
 
 
@@ -164,6 +169,7 @@ public class Camera2BasicFragment extends Fragment
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener
             = new TextureView.SurfaceTextureListener() {
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
             openCamera(width, height);
@@ -335,6 +341,8 @@ public class Camera2BasicFragment extends Fragment
      */
     private int mSensorOrientation;
 
+    private Button btnMotMot, btnBonBa, btnMuoisauChin, btnMuoitamChin;
+
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
@@ -350,10 +358,10 @@ public class Camera2BasicFragment extends Fragment
                 }
                 case STATE_WAITING_LOCK: {
                     Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
-                    Log.d(TAG, "process: if" + (afState == null));
+                   /* Log.d(TAG, "process: if" + (afState == null));
                     Log.d(TAG, "process:else if " + (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
                             CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState));
-
+*/
                     if (afState == null) {
                         captureStillPicture();
                         Log.d(TAG, "process: 12");
@@ -507,8 +515,19 @@ public class Camera2BasicFragment extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        view.findViewById(R.id.picture).setOnClickListener(this);
         view.findViewById(R.id.flip_cam).setOnClickListener(this);
+        view.findViewById(R.id.picture).setOnClickListener(this);
+
+        btnBonBa = view.findViewById(R.id.bon_ba);
+        btnMotMot = view.findViewById(R.id.mot_mot);
+        btnMuoisauChin = view.findViewById(R.id.muoisau_chin);
+        btnMuoitamChin = view.findViewById(R.id.muoitam_chin);
+
+        btnBonBa.setOnClickListener(this);
+        btnMuoitamChin.setOnClickListener(this);
+        btnMuoisauChin.setOnClickListener(this);
+        btnMotMot.setOnClickListener(this);
+
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         if (savedInstanceState != null) {
             int save = savedInstanceState.getInt(CURRENT_CAMERA_ID_STRING);
@@ -625,6 +644,10 @@ public class Camera2BasicFragment extends Fragment
                     continue;
                 }
 
+                Size[] sp = map.getOutputSizes(SurfaceTexture.class);
+
+                Log.d(TAG, "setUpCameraOutputs: HanhLTg: " );
+
                 // For still image captures, we use the largest available size.
                 //MAX JPEG
                 Size largestJpeg = Collections.max(
@@ -647,6 +670,7 @@ public class Camera2BasicFragment extends Fragment
                         new CompareSizesByArea());
                 mYUVImageReader =  ImageReader.newInstance(largestYUV.getWidth(), largestYUV.getHeight(),
                         ImageFormat.YUV_420_888, /*maxImages*/ 2);
+
 
                 /** set Image Listener */
 
@@ -1088,11 +1112,30 @@ public class Camera2BasicFragment extends Fragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.picture: {
+                Log.d(TAG, "onClick: HanhLTg: ");
                 takePicture();
                 break;
             }
             case R.id.flip_cam: {
                 switchCamera();
+                break;
+            }
+
+            case R.id.bon_ba:{
+                Toast.makeText(getActivity(), "4:3", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            case R.id.mot_mot:{
+                Toast.makeText(getActivity(), "1:1", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.muoisau_chin:{
+                Toast.makeText(getActivity(), "16:9", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.muoitam_chin:{
+                Toast.makeText(getActivity(), "18:9", Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -1105,6 +1148,11 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+
+    private void setAspectRatioForPreview(){
+
+
+    }
 
 
     /**

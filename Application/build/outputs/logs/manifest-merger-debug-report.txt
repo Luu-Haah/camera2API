@@ -1,123 +1,105 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-42:12
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-42:12
-MERGED from [com.android.support:support-v13:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e5e2d6b609a7fcb5dd1b5eee907474ea/support-v13-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:design:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/8a49caab1db1d5daec2558434e517729/design-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-v4:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/5a852978b651b1a0947a6a75ff381735/support-v4-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:cardview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/a0be3fd8604a89435186030320484674/cardview-v7-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/3fe709db2faa8624cac5fbc7e2455387/CircleMenu-v1.1.0/AndroidManifest.xml:2:1-17:12
-MERGED from [com.android.support:appcompat-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/c5d6b673faa9e396e9badbbaf9951f17/recyclerview-v7-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/d01dbd1fa62daabf29bcd07d8829fd16/support-media-compat-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/2fde39aab524a9e306e361236cbd3d23/support-fragment-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/d307014f9453414b3974f12757bccdc0/support-core-utils-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/0fc4bf5360a9b301776ad5762d4da3f0/animated-vector-drawable-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/0b6dd8c860ba5fc9885a473191a96e8f/support-core-ui-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/26ec5c0c225bae894f40f2c0bd2802cf/support-vector-drawable-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:transition:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e41f85f3f4749aa862e5eeb23f1722df/transition-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/f86ec469d795472fc46c8ead4b3256a7/support-compat-27.0.2/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.0.3] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/4ee9deb39d4f6ae71451454076275831/runtime-1.0.3/AndroidManifest.xml:17:1-24:12
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:1-42:12
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:18:1-42:12
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:18:1-42:12
+MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3fe709db2faa8624cac5fbc7e2455387\CircleMenu-v1.1.0\AndroidManifest.xml:2:1-17:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.0-beta3] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\c42501325a0bb84bf2eb6ae8bb4d2a85\constraint-layout-1.1.0-beta3\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\ca5cd32916b34d7b787ba721369c4526\appcompat-v7-24.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:animated-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\1e6f437c539bef8da62bf8e06d84d6d3\animated-vector-drawable-24.1.1\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:support-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\0216818d1d6d7818f5d2ccee2f1cb1e6\support-vector-drawable-24.1.1\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:support-v4:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\94a79bdb64a80dac08a6abc44e3b2100\support-v4-24.1.1\AndroidManifest.xml:17:1-27:12
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:18:1-42:12
 	package
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:19:5-47
-		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:19:5-47
+		INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:18:11-69
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:18:11-69
 uses-permission#android.permission.CAMERA
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:21:5-65
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:21:5-65
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:21:22-62
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:21:22-62
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:22:5-80
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:22:5-80
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:22:22-77
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:22:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:23:5-81
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:23:5-81
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:23:22-78
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:23:22-78
 uses-feature#android.hardware.camera
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:25:5-60
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:25:5-60
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:25:19-57
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:25:19-57
 uses-feature#android.hardware.camera.autofocus
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:26:5-70
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:26:5-70
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:26:19-67
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:26:19-67
 application
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:28:5-40:19
-MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/3fe709db2faa8624cac5fbc7e2455387/CircleMenu-v1.1.0/AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/3fe709db2faa8624cac5fbc7e2455387/CircleMenu-v1.1.0/AndroidManifest.xml:11:5-15:19
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:28:5-40:19
+MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3fe709db2faa8624cac5fbc7e2455387\CircleMenu-v1.1.0\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3fe709db2faa8624cac5fbc7e2455387\CircleMenu-v1.1.0\AndroidManifest.xml:11:5-15:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.0-beta3] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\c42501325a0bb84bf2eb6ae8bb4d2a85\constraint-layout-1.1.0-beta3\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.0-beta3] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\c42501325a0bb84bf2eb6ae8bb4d2a85\constraint-layout-1.1.0-beta3\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:appcompat-v7:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\ca5cd32916b34d7b787ba721369c4526\appcompat-v7-24.1.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\ca5cd32916b34d7b787ba721369c4526\appcompat-v7-24.1.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\1e6f437c539bef8da62bf8e06d84d6d3\animated-vector-drawable-24.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\1e6f437c539bef8da62bf8e06d84d6d3\animated-vector-drawable-24.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\0216818d1d6d7818f5d2ccee2f1cb1e6\support-vector-drawable-24.1.1\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\0216818d1d6d7818f5d2ccee2f1cb1e6\support-vector-drawable-24.1.1\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-v4:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\94a79bdb64a80dac08a6abc44e3b2100\support-v4-24.1.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\94a79bdb64a80dac08a6abc44e3b2100\support-v4-24.1.1\AndroidManifest.xml:25:5-20
 	android:supportsRtl
-		ADDED from [com.github.Hitomis:CircleMenu:v1.1.0] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/3fe709db2faa8624cac5fbc7e2455387/CircleMenu-v1.1.0/AndroidManifest.xml:14:9-35
+		ADDED from [com.github.Hitomis:CircleMenu:v1.1.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3fe709db2faa8624cac5fbc7e2455387\CircleMenu-v1.1.0\AndroidManifest.xml:14:9-35
 	android:label
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:29:9-41
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:29:9-41
 	android:icon
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:30:9-45
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:30:9-45
 	android:allowBackup
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:28:18-44
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:28:18-44
 	android:theme
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:31:9-45
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:31:9-45
 activity#com.example.android.camera2basic.CameraActivity
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:33:9-39:20
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:33:9-39:20
 	android:label
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:34:19-51
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:34:19-51
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:33:19-49
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:33:19-49
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:35:13-38:29
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:35:13-38:29
 action#android.intent.action.MAIN
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:36:17-69
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:36:17-69
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:36:25-66
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:36:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:37:17-77
+ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:37:17-77
 	android:name
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml:37:27-74
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml:37:27-74
 uses-sdk
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-MERGED from [com.android.support:support-v13:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e5e2d6b609a7fcb5dd1b5eee907474ea/support-v13-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v13:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e5e2d6b609a7fcb5dd1b5eee907474ea/support-v13-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/8a49caab1db1d5daec2558434e517729/design-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/8a49caab1db1d5daec2558434e517729/design-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/5a852978b651b1a0947a6a75ff381735/support-v4-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/5a852978b651b1a0947a6a75ff381735/support-v4-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/a0be3fd8604a89435186030320484674/cardview-v7-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/a0be3fd8604a89435186030320484674/cardview-v7-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/3fe709db2faa8624cac5fbc7e2455387/CircleMenu-v1.1.0/AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/3fe709db2faa8624cac5fbc7e2455387/CircleMenu-v1.1.0/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/c5d6b673faa9e396e9badbbaf9951f17/recyclerview-v7-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/c5d6b673faa9e396e9badbbaf9951f17/recyclerview-v7-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/d01dbd1fa62daabf29bcd07d8829fd16/support-media-compat-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/d01dbd1fa62daabf29bcd07d8829fd16/support-media-compat-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/2fde39aab524a9e306e361236cbd3d23/support-fragment-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/2fde39aab524a9e306e361236cbd3d23/support-fragment-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/d307014f9453414b3974f12757bccdc0/support-core-utils-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/d307014f9453414b3974f12757bccdc0/support-core-utils-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/0fc4bf5360a9b301776ad5762d4da3f0/animated-vector-drawable-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/0fc4bf5360a9b301776ad5762d4da3f0/animated-vector-drawable-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/0b6dd8c860ba5fc9885a473191a96e8f/support-core-ui-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/0b6dd8c860ba5fc9885a473191a96e8f/support-core-ui-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/26ec5c0c225bae894f40f2c0bd2802cf/support-vector-drawable-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/26ec5c0c225bae894f40f2c0bd2802cf/support-vector-drawable-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e41f85f3f4749aa862e5eeb23f1722df/transition-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/e41f85f3f4749aa862e5eeb23f1722df/transition-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/f86ec469d795472fc46c8ead4b3256a7/support-compat-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:27.0.2] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/f86ec469d795472fc46c8ead4b3256a7/support-compat-27.0.2/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.0.3] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/4ee9deb39d4f6ae71451454076275831/runtime-1.0.3/AndroidManifest.xml:20:5-22:41
-MERGED from [android.arch.lifecycle:runtime:1.0.3] /home/hanhltg/.gradle/caches/transforms-2/files-2.1/4ee9deb39d4f6ae71451454076275831/runtime-1.0.3/AndroidManifest.xml:20:5-22:41
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3fe709db2faa8624cac5fbc7e2455387\CircleMenu-v1.1.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.Hitomis:CircleMenu:v1.1.0] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\3fe709db2faa8624cac5fbc7e2455387\CircleMenu-v1.1.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.0-beta3] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\c42501325a0bb84bf2eb6ae8bb4d2a85\constraint-layout-1.1.0-beta3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.0-beta3] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\c42501325a0bb84bf2eb6ae8bb4d2a85\constraint-layout-1.1.0-beta3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:appcompat-v7:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\ca5cd32916b34d7b787ba721369c4526\appcompat-v7-24.1.1\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\ca5cd32916b34d7b787ba721369c4526\appcompat-v7-24.1.1\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\1e6f437c539bef8da62bf8e06d84d6d3\animated-vector-drawable-24.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\1e6f437c539bef8da62bf8e06d84d6d3\animated-vector-drawable-24.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\0216818d1d6d7818f5d2ccee2f1cb1e6\support-vector-drawable-24.1.1\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-vector-drawable:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\0216818d1d6d7818f5d2ccee2f1cb1e6\support-vector-drawable-24.1.1\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-v4:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\94a79bdb64a80dac08a6abc44e3b2100\support-v4-24.1.1\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\94a79bdb64a80dac08a6abc44e3b2100\support-v4-24.1.1\AndroidManifest.xml:21:5-23:54
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:24.1.1] C:\Users\ADMIN\.gradle\caches\transforms-2\files-2.1\ca5cd32916b34d7b787ba721369c4526\appcompat-v7-24.1.1\AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
-		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
+		INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-		ADDED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
-		INJECTED from /home/hanhltg/AndroidStudioProjects/camera2API/Application/src/main/AndroidManifest.xml
+		INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidProject\camera2API\Application\src\main\AndroidManifest.xml

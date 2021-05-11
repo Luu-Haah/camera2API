@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
+            "outputFile": "D:\\AndroidProject\\camera2API\\Application\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\ca5cd32916b34d7b787ba721369c4526\\appcompat-v7-24.1.1\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

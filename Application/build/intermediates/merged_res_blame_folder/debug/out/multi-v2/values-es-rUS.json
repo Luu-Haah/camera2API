@@ -1,33 +1,16 @@
 {
     "logs": [
         {
-            "outputFile": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "D:\\AndroidProject\\camera2API\\Application\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-es-rUS\\values-es-rUS.xml",
             "map": [
                 {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/res/values-es-rUS/values-es-rUS.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\ca5cd32916b34d7b787ba721369c4526\\appcompat-v7-24.1.1\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,225,334,442,527,628,751,836,918,1000,1112,1212,1313,1421,1528,1635,1794,1894",
-                        "endColumns": "119,108,107,84,100,122,84,81,81,111,99,100,107,106,106,158,99,81",
-                        "endOffsets": "220,329,437,522,623,746,831,913,995,1107,1207,1308,1416,1523,1630,1789,1889,1971"
-                    }
-                },
-                {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/f86ec469d795472fc46c8ead4b3256a7/support-compat-27.0.2/res/values-es-rUS/values-es-rUS.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "1976",
-                        "endColumns": "100",
-                        "endOffsets": "2072"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,175,283,406,515,623,708,809,932,1017,1099,1181,1293,1405,1506,1614,1721,1828,1950,2050",
+                        "endColumns": "119,107,122,108,107,84,100,122,84,81,81,111,111,100,107,106,106,121,99,100",
+                        "endOffsets": "170,278,401,510,618,703,804,927,1012,1094,1176,1288,1400,1501,1609,1716,1823,1945,2045,2146"
                     }
                 }
             ]

@@ -1,33 +1,16 @@
 {
     "logs": [
         {
-            "outputFile": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-da/values-da.xml",
+            "outputFile": "D:\\AndroidProject\\camera2API\\Application\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-da\\values-da.xml",
             "map": [
                 {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/res/values-da/values-da.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\ca5cd32916b34d7b787ba721369c4526\\appcompat-v7-24.1.1\\res\\values-da\\values-da.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,208,307,419,502,602,715,792,869,948,1057,1165,1261,1375,1477,1578,1731,1828",
-                        "endColumns": "102,98,111,82,99,112,76,76,78,108,107,95,113,101,100,152,96,78",
-                        "endOffsets": "203,302,414,497,597,710,787,864,943,1052,1160,1256,1370,1472,1573,1726,1823,1902"
-                    }
-                },
-                {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/f86ec469d795472fc46c8ead4b3256a7/support-compat-27.0.2/res/values-da/values-da.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "1907",
-                        "endColumns": "100",
-                        "endOffsets": "2003"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,158,266,389,488,600,683,783,896,973,1050,1129,1238,1346,1442,1556,1658,1759,1875,1972",
+                        "endColumns": "102,107,122,98,111,82,99,112,76,76,78,108,107,95,113,101,100,115,96,100",
+                        "endOffsets": "153,261,384,483,595,678,778,891,968,1045,1124,1233,1341,1437,1551,1653,1754,1870,1967,2068"
                     }
                 }
             ]

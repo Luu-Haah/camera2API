@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/hanhltg/AndroidStudioProjects/camera2API/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
+            "outputFile": "D:\\AndroidProject\\camera2API\\Application\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/a0be3fd8604a89435186030320484674/cardview-v7-27.0.2/res/values-v23/values-v23.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "4",
-                        "endColumns": "12",
-                        "endOffsets": "200"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "2646",
-                        "endLines": "39",
-                        "endColumns": "12",
-                        "endOffsets": "2791"
-                    }
-                },
-                {
-                    "source": "/home/hanhltg/.gradle/caches/transforms-2/files-2.1/cfbc78985527129d85b7eece84d3e351/appcompat-v7-27.0.2/res/values-v23/values-v23.xml",
+                    "source": "C:\\Users\\ADMIN\\.gradle\\caches\\transforms-2\\files-2.1\\ca5cd32916b34d7b787ba721369c4526\\appcompat-v7-24.1.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
